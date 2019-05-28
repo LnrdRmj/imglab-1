@@ -38,14 +38,43 @@ var tools = {
             icon : "rectangle.svg",
             drawable : true,
             create : function(){
+                console.log("Inserimento rettangolo");
                 var rect =  myCanvas.nested().rect().addClass('labelbox shape')/* .draw() */;
                 rect.resize();
                 rect.parent().draggable();
+
                 return rect;
             },
             validate: function(el){
                 return Number.parseInt(el.attr("width")) > 3;
             },
+        },
+        "tool-10px" : {
+          type: "lente",
+          title  : "10px",
+          desp : "Add 10 more pixel to each shape",
+          icon : "rectangle.svg",
+          drawable : false,
+          actions: ["10px"]
+          /*create : function(){
+            console.log("Entra");
+            console.log(labellingData[ imgSelected.name ].shapes);
+            for(var shapeId in labellingData[ imgSelected.name ].shapes){
+                var shape = labellingData[ imgSelected.name ].shapes[ shapeId ];
+                console.log(shape);
+                switch(shape.type){
+                    case "rect":
+                      console.log("RECTANGLE");
+                      break;
+                    case "circle":
+                      console.log("CIRCLE");
+                      break;
+                    case "polygon":
+                      console.log("POLYGON");
+                      break;
+              }
+            }
+          }*/
         },
         "tool-polygon" : {
             type: "poly",
