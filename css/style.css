@@ -17,7 +17,7 @@
 }
 
 #h_line, #v_line, #tooltip-span {
-	display:none;
+		display:none;
     position:absolute;
     overflow:hidden;
 }

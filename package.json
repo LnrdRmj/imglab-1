@@ -1,0 +1,23 @@
+{
+  "name": "minifycss-project",
+  "version": "1.0.0",
+  "description": "Minifies all the css of ImgLab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leonardo RP",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^3.0.2",
+    "gulp-useref": "^3.1.6"
+  },
+  "dependencies": {
+    "gulp-cssnano": "^2.1.3"
+  }
+}
