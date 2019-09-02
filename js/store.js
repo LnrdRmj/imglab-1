@@ -31,7 +31,7 @@ function getShape(shapeId){
 }
 
 function attachPointToShape(shapeId, pointid, position){
-    var shape = getShape(shapeId);
+    var shape = getShape(shapeId);  1
     var scale = 1 / imgSelected.size.imageScale;
     shape.featurePoints.push( {
         "x": position.cx * scale,
@@ -88,6 +88,10 @@ function scaleShape(id, type, bbox, points, scale) {
     }
 }
 
+function scaleTexts(informations){
+
+}
+
 /**
  * Scales the points of the shape according to scale and type
  * @param {points[] | Array[points[]]} point
@@ -137,7 +141,7 @@ function scaleFeaturePoints(featurePoints, scale) {
 
     return featurePoints.map(point => {
         return {
-          "x": point.x * scale,
+          "x" : point.x * scale,
           "y": point.y * scale,
           "label" : point.label,
           "id" : point.id
@@ -163,6 +167,30 @@ function attachShapeToImg(id, type, bbox, points){
     return shape;
 }
 
+function attachTextToImg(informations){
+    var text = scaleTexts(informations);
+    labellingData[ imgSelected.name ].texts.push(text);
+    return text;
+}
+
+function scaleValue(value){
+  var scale = 1 / imgSelected.size.imageScale;
+  value *= scale;
+  return value * scale;
+}
+
+function scaleTexts(informations){
+
+  return {
+    "id" : informations.id,
+    "coordinate" : [scaleValue(informations.x), scaleValue(informations.y)],
+    "font" : informations.font,
+    "size" : Math.floor(scaleValue(informations.size)),
+    "color" : informations.color,
+    "rotation" : informations.rotation
+  };
+}
+
 function addImgToStore(imgname, size) {
     // If we already have this image data in localstorage,
     // don't initialize its properties
@@ -177,6 +205,7 @@ function addImgToStore(imgname, size) {
                 "height": size.height
             },
             "shapes": [],
+            "texts" : [],
             "shapeIndex": 0,   // Used to generate new ids for copy pasted shapes
             "pointIndex": 0,    // Used to generate new ids for feature points
             "featurePointSize": 3 // Stores featurePointSize per image

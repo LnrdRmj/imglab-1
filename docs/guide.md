@@ -74,6 +74,14 @@ Zoom in and out of your image to adjust your precision or simply get a different
 
 ![Zoom](/img/imglab-zoom.gif)
 
+### [Resize:](#resize)
+
+Resizes all the shapes that have been drawn on top of the image
+
+1. Select the resize botton in the toolbar on the bottom-left corner
+2. Select the number of pixels to add to each shape
+3. Click the '+' or '-' botton to resize the shape
+
 ### [Copy/Paste Labels Across Images:](##copypaste-labels-across-images)
 
 A short description of the feature will go here.

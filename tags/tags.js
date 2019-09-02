@@ -228,6 +228,7 @@ riot.tag2('plugin-window', '<div id="plugin-window"> <div id="plugin-titlebar"> 
         function dragElement(elmnt,titlebar) {
             var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             if (titlebar) {
+
                 titlebar.onmousedown = dragMouseDown;
             } else {
 
@@ -502,7 +503,6 @@ riot.tag2('workarea', '<div id="canvas-container"> <img id="img" riot-src="{opts
     }
 
     function drawOnCanvas(){
-
         for( var shapeId in labellingData[ imgSelected.name ].shapes){
             var shape = labellingData[ imgSelected.name ].shapes[ shapeId ];
             var currentShape;
@@ -540,8 +540,6 @@ riot.tag2('workarea', '<div id="canvas-container"> <img id="img" riot-src="{opts
                         .id(shapeId)
                         .resize();
                     poly.parent().draggable();
-
-                    
 
                     currentShape = poly;
                     break;

@@ -24,5 +24,9 @@
 
 DEMONSTRATION GIF NOT YET AVAILABLE.
 
+### Resize All Shapes At Once:
+
+DEMONSTRATION GIF NOT YET AVAILABLE.
+
 
 Check [video](https://youtu.be/Y-bJo_ylHTw) tutorial/demonstration for more details.

@@ -98,7 +98,7 @@ function saveAsDlibPts(){
 }
 
 /**
- * Save labelled data as COCO supported JSON file. 
+ * Save labelled data as COCO supported JSON file.
  * It captures only boundary box detail and categories.
  */
 function saveAsCOCO(){
@@ -110,7 +110,7 @@ function saveAsCOCO(){
 }
 
 /**
- * Save labelled data as Pascal VOC supported XML file. 
+ * Save labelled data as Pascal VOC supported XML file.
  * It captures only boundary box detail of currently loaded/selected image.
  */
 function saveAsPascalVOC(){
@@ -133,8 +133,8 @@ function saveAsPascalVOC(){
 
 /**
  * Save given data to a file
- * @param {*} data 
- * @param {string} filename 
+ * @param {*} data
+ * @param {string} filename
  * @param {string} type : Mime type
  */
 function download(data, filename, type, encoding) {
@@ -145,8 +145,8 @@ function download(data, filename, type, encoding) {
 
 /**
  * Ask user to provide output filename
- * @param {string} suggestedName 
- * @param {function} cb 
+ * @param {string} suggestedName
+ * @param {function} cb
  */
 function askFileName(suggestedName, cb){
     suggestedName || (suggestedName = "Untitled_imgLab" )

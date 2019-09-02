@@ -1,0 +1,134 @@
+{
+  "prodotti" : [
+    {
+      "depth": "10",
+      "width": "90",
+      "height": "100",
+      "bracket": "1",
+      "ean_code": "215254",
+      "h_facing": "1",
+      "position": "0",
+      "v_facing": "3"
+    },
+    {
+      "depth": "25",
+      "width": "80",
+      "height": "140",
+      "bracket": "1",
+      "ean_code": "234567",
+      "h_facing": "1",
+      "position": "2",
+      "v_facing": "2"
+    },
+    {
+      "depth": "10",
+      "width": "90",
+      "height": "100",
+      "bracket": "1",
+      "ean_code": "321554",
+      "h_facing": "1",
+      "position": "0",
+      "v_facing": "2"
+    },
+    {
+      "depth": "15",
+      "width": "120",
+      "height": "100",
+      "bracket": "2",
+      "ean_code": "2121548",
+      "h_facing": "1",
+      "position": "2",
+      "v_facing": "1"
+    },
+    {
+      "depth": "15",
+      "width": "60",
+      "height": "40",
+      "bracket": "2",
+      "ean_code": "56146877",
+      "h_facing": "1",
+      "position": "1",
+      "v_facing": "3"
+    },
+    {
+      "depth": "25",
+      "width": "120",
+      "height": "120",
+      "bracket": "2",
+      "ean_code": "68745612",
+      "h_facing": "3",
+      "position": "0",
+      "v_facing": "2"
+    },
+    {
+      "depth": "60",
+      "width": "150",
+      "height": "60",
+      "bracket": "1",
+      "ean_code": "80177043",
+      "h_facing": "2",
+      "position": "0",
+      "v_facing": "1"
+    },
+    {
+      "depth": "10",
+      "width": "90",
+      "height": "90",
+      "bracket": "2",
+      "ean_code": "121321548",
+      "h_facing": "1",
+      "position": "1",
+      "v_facing": "1"
+    },
+    {
+      "depth": "20",
+      "width": "100",
+      "height": "100",
+      "bracket": "2",
+      "ean_code": "123122168",
+      "h_facing": "2",
+      "position": "1",
+      "v_facing": "1"
+    },
+    {
+      "depth": "15",
+      "width": "40",
+      "height": "60",
+      "bracket": "2",
+      "ean_code": "648845813",
+      "h_facing": "1",
+      "position": "0",
+      "v_facing": "3"
+    },
+    {
+      "depth": "10",
+      "width": "120",
+      "height": "100",
+      "bracket": "1",
+      "ean_code": "4324325344",
+      "h_facing": "2",
+      "position": "2",
+      "v_facing": "2"
+    },
+    {
+      "depth": "20",
+      "width": "60",
+      "height": "60",
+      "bracket": "2",
+      "ean_code": "5467845613",
+      "h_facing": "2",
+      "position": "0",
+      "v_facing": "2"
+    },
+    {
+      "depth": "50",
+      "width": "150",
+      "height": "180",
+      "bracket": "1",
+      "ean_code": "8076809573252",
+      "h_facing": "2",
+      "position": "1",
+      "v_facing": "2"
+    }
+  ]
+}

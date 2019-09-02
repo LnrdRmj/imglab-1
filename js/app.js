@@ -24,8 +24,8 @@ function getCordinates(event, element) {
 /**
  * Search an item in array based on id property.
  * returns index of the item
- * @param {Array} arr 
- * @param {string} itemId 
+ * @param {Array} arr
+ * @param {string} itemId
  */
 function indexOf(arr, property, val){
     for(var i=0; i<arr.length; i++){
@@ -37,8 +37,8 @@ function indexOf(arr, property, val){
 
 /**
  * Search an item in array based on given property
- * @param {Array} arr 
- * @param {string} itemId 
+ * @param {Array} arr
+ * @param {string} itemId
  */
 function findInArray(arr, property, val){
     for(var i=0; i<arr.length; i++){
@@ -46,6 +46,33 @@ function findInArray(arr, property, val){
     }
 }
 
+function getPoints(shape) {
+    var points;
+
+    switch (shape.type) {
+        case "rect":
+            var box = shape.rbox(myCanvas);
+            return [box.x, box.y, box.w, box.h];
+        case "circle":
+            var box = shape.rbox(myCanvas);
+            return [box.cx, box.cy, shape.attr("r")];
+            /* case "ellipse":
+                var box = shape.rbox(myCanvas);
+                return [box.cx, box.cy, box.rx, box.ry]; */
+        case "polygon":
+            //Polygon points are relative to it's container SVG
+            var parentSvg = $('#'+shape.node.id).closest('svg');
+            var calculatedPoints = [];
+            var vector = {
+                x: parseInt(parentSvg.attr("x"), 10) || 0,
+                y: parseInt(parentSvg.attr("y"), 10) || 0
+            }
+            shape.array().value.forEach(ponitArr => {
+                calculatedPoints.push([ponitArr[0] + vector.x, ponitArr[1] + vector.y]);
+            });
+            return calculatedPoints;
+    }
+}
 
 function pDistance( x1, y1, x2, y2, x, y) {
 
@@ -53,15 +80,15 @@ function pDistance( x1, y1, x2, y2, x, y) {
     var B = y - y1;
     var C = x2 - x1;
     var D = y2 - y1;
-  
+
     var dot = A * C + B * D;
     var len_sq = C * C + D * D;
     var param = -1;
     if (len_sq != 0) //in case of 0 length line
         param = dot / len_sq;
-  
+
     var xx, yy;
-  
+
     if (param < 0) {
       xx = x1;
       yy = y1;
@@ -74,7 +101,7 @@ function pDistance( x1, y1, x2, y2, x, y) {
       xx = x1 + param * C;
       yy = y1 + param * D;
     }
-  
+
     var dx = x - xx;
     var dy = y - yy;
     return Math.sqrt(dx * dx + dy * dy);

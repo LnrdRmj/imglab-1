@@ -23,7 +23,7 @@ function toDlibXML(imgs){
     var imgXMLStr = "";
     var img_keys = Object.keys(imgs);
     for(var img_i in img_keys){
-        var imgName = img_keys[ img_i] ;
+        var imgName = img_keys[ img_i];
         var img = imgs [ imgName ];
         imgXMLStr += "\t<image file='"+ imgName +"'>\n";
         var shapes = img.shapes;

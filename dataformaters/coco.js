@@ -78,21 +78,29 @@ var cocoFormater = {
                     idNumber++;
                 }
             }
+
+            textsAttribute[image.file_name] = getLabelsImage(cocoData.texts, image.file_name);
+
         }
 
+        $(document).trigger("uploadComplete");
+
         return labellingData;
+
     },
-    toCOCO : function(labellingData){
+    toCOCO: function(labellingData){
         var categories = [];
 
         var cocoData = {
             images : [],
             "type": "instances",
             annotations : [],
-            categories : []
+            categories : [],
+            texts : [] 
         }
-        var images = Object.keys(labellingData);
 
+        var images = Object.keys(labellingData);
+        
         //Add images
         for(var image_i = 0 ; image_i < images.length; image_i++){
             var imageName = images [image_i];
@@ -143,6 +151,20 @@ var cocoFormater = {
                 });
 
             }
+
+            console.log(texts);
+            for (var i = 0; i < texts[imageName].length; i++){
+                cocoData.texts.push({
+                    "imgName" : imageName,
+                    "x" : texts[imageName][i].attr('x'), 
+                    "y" : texts[imageName][i].attr('y'),
+                    "text" : texts[imageName][i].text(),
+                    "fontFamily" : texts[imageName][i].attr('font-family'),
+                    "fontSize" : texts[imageName][i].attr('font-size'),
+                    "fill" : texts[imageName][i].attr('fill'),
+                    "transform" : texts[imageName][i].attr('transform')
+                });
+            }
         }
 
         //Add cateogries
@@ -168,4 +190,18 @@ function calcArea(coords){
         area += coords[i]*coords[nexti+1] - coords[i+1]*coords[nexti];
     }
     return Math.abs(area/2);
+}
+
+function getLabelsImage(labels, nameImmagine){
+
+    var array = [];
+
+    for (var i = 0; i < labels.length; i++) {
+        if (labels[i].imgName == nameImmagine) 
+            array.push(labels[i]);
+    }
+
+
+    return array;
+
 }

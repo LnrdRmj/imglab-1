@@ -1,0 +1,27 @@
+{  "prodotti" : [
+    {
+      "EAN": 80177043,
+      "Descrizione": "Burro di Arachidi",
+      "Larghezza": 20,
+      "Altezza": 24,
+      "Profondita": 20,
+      "Immagine": "https://images-na.ssl-images-amazon.com/images/I/71P5GuWfXzL._SX425_.jpg"
+    },
+    {
+      "EAN": 8076809573252,
+      "Descrizione": "Aranciata",
+      "Larghezza": 15,
+      "Altezza": 31,
+      "Profondita": 15,
+      "Immagine": "https://www.millelirealmese.it/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/u/mulino-bianco-biscotti-baiocchi-250-gr.png"
+    },
+    {
+      "EAN": 1,
+      "Descrizione": "Aranciata Piccola",
+      "Larghezza": 8,
+      "Altezza": 18,
+      "Profondita": 8,
+      "Immagine": "https://www.millelirealmese.it/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/m/u/mulino-bianco-biscotti-baiocchi-250-gr.png"
+    }
+  ]
+}

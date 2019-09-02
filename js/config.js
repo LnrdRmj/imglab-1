@@ -38,7 +38,6 @@ var tools = {
             icon : "rectangle.svg",
             drawable : true,
             create : function(){
-                console.log("Inserimento rettangolo");
                 var rect =  myCanvas.nested().rect().addClass('labelbox shape')/* .draw() */;
                 rect.resize();
                 rect.parent().draggable();
@@ -77,14 +76,28 @@ var tools = {
         }
     },
     canvas : {
-        "tool-10px" : {
-          type: "lente",
-          title  : "10px",
-          desp : "Add 10 more pixel to each shape",
-          icon : "resize.png",
-          drawable : false,
-          actions: ["10px"]
-    },
+        "tool-resize" : {
+            type : "resize",
+            title : "Resize",
+            desp : "Resizes all shapes",
+            icon : "resize.ico",
+            drawable : false,
+            actions : ["resize"]
+          },
+        "tool-label" : {
+            type : "label",
+            title : "Label",
+            desp : "Adds a label to the current image",
+            icon : "label.png",
+            drawable : false,
+            actions : ["label"]
+          },
+        "tool-replica" : {
+            title : "Replica",
+            desp : "Upload product from a JSON file",
+            icon : "JSON Icon.png",
+            actions : ["replica"]
+        },
         "tool-move" : {
             title  : "Move",
             desp : "Move an element or the entire workarea",
@@ -133,8 +146,10 @@ function getPointToDraw(position, container, canvasOffset) {
     point.draggable();
     return point;
 }
+
 var imgSelected = "";
 var selectedElements = [];
+var selectedTexts = [];
 var copiedElements;
 var selectedTool = null, selectedElement = null;
 var alreadyDrawing = false;

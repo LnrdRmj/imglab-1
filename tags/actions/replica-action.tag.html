@@ -1,0 +1,191 @@
+<action-replica>
+  <style>
+    .zoom-bar{
+      display: flex;
+    }
+    .zoom-bar > div:not(:first-child){
+      margin-left: .2em;
+    }
+    .zoom-button{
+      padding: .3em;
+      cursor: pointer;
+    }
+    .zoom-button:not(.zoom-selected):hover{
+      background: grey;
+    }
+    input[type="text"]{
+      border: 0px;
+      text-align:center;
+      margin-top:.2em;
+    }
+  </style>
+  <div class="zoom-bar">
+    <div class="zoom-button">
+      <img src="img/icons/ploadJSONLogo.png" data-zoom-type="in" onclick={ zoom }>
+    </div>
+  </div>
+  <script>
+
+    var prodottiOriginali;
+    var tag = this;
+    tag.zoom = function (e){
+
+      if(!imgSelected) return;
+
+      var id = 0;
+
+      $.getJSON('tags/actions/schedaTecnicaProdotti.json', function(data){
+
+        console.log(data);
+
+        var nScaffali = getNScaffali(data);
+
+        if (!prodottiOriginali) {
+
+          prodottiOriginali = [];
+
+          for (var i = 0; i < nScaffali; i++){
+              prodottiOriginali.push(labellingData[imgSelected.name].shapes[i]);
+          }
+        }
+        
+        labellingData[imgSelected.name].shapes = labellingData[imgSelected.name].shapes.slice(nScaffali);
+
+        for (var i = 0; i < nScaffali; i++){
+
+          var x = prodottiOriginali[i].points[0];
+          var y = prodottiOriginali[i].points[1] + prodottiOriginali[i].points[3];
+
+          var prodottiScaffale = getProdottiScaffale(data.prodotti, i+1);
+          console.log(prodottiScaffale);
+
+          var scaleX;
+          var scaleY;
+
+          switch (prodottiScaffale[0].position){
+            case "0":
+              scaleX = prodottiOriginali[i].points[2] / prodottiScaffale[0].width;
+              scaleY = prodottiOriginali[i].points[3] / prodottiScaffale[0].height;
+              break;
+            case "1":
+              scaleX = prodottiOriginali[i].points[2] / prodottiScaffale[0].height;
+              scaleY = prodottiOriginali[i].points[3] / prodottiScaffale[0].depth;
+              break;
+            case "2":
+              scaleX = prodottiOriginali[i].points[2] / prodottiScaffale[0].width;
+              scaleY = prodottiOriginali[i].points[2] / prodottiScaffale[0].depth;
+              break;
+          }
+
+          for (var j = 0; j < prodottiScaffale.length; j++){
+
+            var prodotto = prodottiScaffale[j];
+
+            var width;
+            var height;
+
+            switch (prodotto.position){
+              case "0":
+                width = prodotto.width * scaleX;
+                height = prodotto.height * scaleY;
+                break;
+              case "1":
+                width = prodotto.height * scaleX;
+                height = prodotto.depth * scaleY;
+                break;
+              case "2":
+                width = prodotto.width * scaleX;
+                height = prodotto.depth * scaleY;
+                break;
+
+            }
+
+            var offsetx, offsety;
+
+            var bbox = [];
+            var points = [];
+
+            var currentY = y;
+
+            for (var k = 0; k < prodotto.h_facing; k++){
+              for (var l = 0; l < prodotto.v_facing; l++){
+
+                  bbox = [x + width / 2, currentY - height / 2, height, height, width, width];
+                  points = [x, currentY - height, width, height];
+                  offsetx = width;
+                  offsety = height;
+
+                  attachShapeToImg(id.toString(), "rect", bbox, points);
+
+                  rescaleImage();
+
+                  id++;
+
+                  currentY -= offsety;
+              }
+              x += offsetx;
+              currentY = y;
+            }
+          }
+        }
+      });
+
+    function getNScaffali(data){
+
+      var max = 0;
+
+      for (var i = 0; i < data.prodotti.length; i++){
+        if (data.prodotti[i].bracket > max) max = data.prodotti[i].bracket;
+      }
+
+      return max;
+
+    }
+
+    function getProdottiScaffale(data, nScaffale){
+
+      var prodotti = [];
+
+      for (var i = 0; i < data.length; i++){
+        if (data[i].bracket == nScaffale) prodotti.push(data[i]);
+      }
+
+      return prodotti;
+
+    }
+
+    this.on('mount', function () {
+
+        console.log("UML");
+
+      //reset the input box's value according to image scale
+      //if(imgSelected) $("#zoom-scale").val(Math.round(imgSelected.size.imageScale*100)+'%');
+
+    });
+
+    function rescaleImage(){
+      riot.mount('workarea');
+    }
+
+
+      //break;
+    /*case 1:
+
+    bbox = [x + prodotto.Altezza / 2, y - prodotto.depth / 2, prodotto.depth, prodotto.depth, prodotto.Altezza, prodotto.Altezza];
+    points = [x, y - prodotto.depth, prodotto.Altezza, prodotto.depth];
+
+    x += prodotto.Altezza;
+
+      break;
+    case 2:
+
+    bbox = [x + prodotto.Larghezza / 2, y - prodotto.p / 2, prodotto.depth, prodotto.depth, prodotto.Larghezza, prodotto.Larghezza];
+    points = [x, y - prodotto.depth, prodotto.Larghezza, prodotto.depth];
+
+    x += prodotto.Larghezza;
+
+      break;
+    }*/
+  }
+  </script>
+</action-replica>

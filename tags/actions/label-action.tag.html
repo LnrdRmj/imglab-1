@@ -1,0 +1,272 @@
+<action-label>
+  <style>
+    .zoom-bar{
+      display: flex;
+    }
+    .zoom-bar > div:not(:first-child){
+      margin-left: .2em;
+    }
+    .zoom-button{
+      padding: .3em;
+      cursor: pointer;
+    }
+    .zoom-button:not(.zoom-selected):hover{
+      background: grey;
+    }
+    input[type="text"]{
+      border: 0px;
+      text-align:center;
+      margin-top:.2em;
+    }
+  </style>
+  <div class="zoom-bar">
+    <div>
+      <input id="textInput" name="textInput" type='text' placeholder="Testo label" size="20" value="prodotto"/>
+    </div>
+    <div style="padding-top: 3px;">
+      <select id="familyFont" height="100">
+        <option value="Times">Times</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="serif">Serif</option>
+        <option value="sans-serif">Sans-serif</option>
+        <option value="monospace">Monospace</option>
+        <option value="cursive">Cursive</option>
+        <option value="fantasy">Fantasy</option>
+      </select>
+    </div>
+    Font size
+    <div>
+      <input type="number" id="sizeFont" value="20" max="40" min="5">
+    </div>
+    <div style="padding-top: 3px;">
+      <input type="color" id="colorFont">
+    </div>
+    <div>
+      <img id="deleteButton" src="img/icons/trashIcon.png">
+    </div>
+    <div>
+      <button id="selectAll">Select all</button>
+    </div>
+    <div>
+      <button id="deselectAll">Deselect all</button>
+    </div>
+    <div>
+      <input type="number" id="rotationAngle" placeholder="Gradi di rotazione" max="360" min="0"></input>
+    </div>
+  </div>
+  <script>
+
+    var drawText = true;
+
+    // var tag = this;
+    // tag.doSomething = function(e){
+    //
+    // }
+
+    myCanvas.on('canvasIsOn', function(){
+
+      console.log("canvas is on");
+
+    });
+
+    function deselectOnlyTexts(){
+
+      //for (var i in selectedTexts) selectedTexts[i].selectize(false, {deepselect : true});
+      for (var i in labellingData[imgSelected.name].texts) SVG.get(labellingData[imgSelected.name].texts[[i]].id).selectize(false, {deepselect : true});
+
+    }
+
+    function deleteSelectedTexts(){
+
+      //console.log(texts[imgSelected.name].texts[0].attr());
+
+      deselectOnlyTexts();
+
+      for (var i in selectedTexts){
+
+        selectedTexts[i].text = "";
+
+        var pos = findInArray(labellingData[imgSelected.name].texts, selectedTexts[i]);
+
+        labellingData[imgSelected.name].texts.splice(pos, 1);
+
+      }
+
+      selectedTexts = [];
+
+    }
+
+    function updateSelectedTexts(e){
+
+      for (var i in selectedTexts){
+        selectedTexts[i].text(document.getElementById("textInput").value)
+        .font("family", document.getElementById("familyFont").value)
+        .font("size", document.getElementById("sizeFont").value)
+        .fill(document.getElementById("colorFont").value);
+      }
+
+    }
+
+    function selectAllTexts(){
+      for (var i in labellingData[imgSelected.name].texts){
+        if (findInArray(selectedTexts, labellingData[imgSelected.name].texts[i]) == -1){
+
+          var el = SVG.get(labellingData[imgSelected.name].texts[i].id);
+
+          el.selectize({
+            rotationPoint : false, 
+            pointsExclude : ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l']
+          });
+
+          // labellingData[imgSelected.name].texts[i].selectize({
+          //   rotationpoint : false,
+          //   pointsExclude : ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l']
+          // });
+          selectedTexts.push(labellingData[imgSelected.name].texts[i]);
+        }
+      }
+    }
+
+    function deselectAllTexts(){
+      for (var i in selectedTexts) SVG.get(labellingData[imgSelected.name].texts[i].id).selectize(false, {deepselect : true});
+
+      selectedTexts = [];
+
+    }
+
+    function rotateSelectedTexts(){
+
+      for (var i in selectedTexts)
+        if (document.getElementById("rotationAngle").value != "")
+          selectedTexts[i].rotate(parseInt(document.getElementById("rotationAngle").value));
+        else
+          selectedTexts[i].rotate(0);
+
+    }
+
+    this.on('mount', function(){
+
+      this.root.querySelector("#deleteButton").addEventListener('click', deleteSelectedTexts);
+
+      this.root.querySelector("#textInput").addEventListener('keyup', updateSelectedTexts);
+      this.root.querySelector("#familyFont").addEventListener('change', updateSelectedTexts);
+      this.root.querySelector("#sizeFont").addEventListener('keyup', updateSelectedTexts);
+      this.root.querySelector("#colorFont").addEventListener('change', updateSelectedTexts);
+
+      this.root.querySelector("#selectAll").addEventListener('click', selectAllTexts);
+      this.root.querySelector("#deselectAll").addEventListener('click', deselectAllTexts);
+
+      this.root.querySelector("#rotationAngle").addEventListener('keyup', rotateSelectedTexts);
+
+    });
+
+    var tag = this;
+    tag.zoom = function (e){
+
+      rescaleImage();
+
+    }
+
+    $("#work-canvas").unbind().on('click', function(e){
+        if (drawText){
+          var cordinates = getCordinates(event, $("#work-canvas"));
+          var text = myCanvas.nested().text(document.getElementById("textInput").value)
+          .move(cordinates.x, cordinates.y)
+          .font("family", document.getElementById("familyFont").value)
+          .font("size", document.getElementById("sizeFont").value)
+          .fill(document.getElementById("colorFont").value);
+
+          if (document.getElementById("rotationAngle").value != ""){
+            text.rotate(parseInt(document.getElementById("rotationAngle").value));
+          }
+
+          attachEvents(text);
+          text.draggable();
+          // if(!texts[imgSelected.name]) texts[imgSelected.name] = [];
+          // texts[imgSelected.name].push(text);
+
+          var informations = {
+            "id" : text.node.id,
+            "text" : text.text(),
+            "cordinates" : [text.attr('x'), text.attr('y')],
+            "font" : text.attr('font-family'),
+            "size" : text.attr('font-size'),
+            "color" : text.attr('fill'),
+            "rotation" : text.transform()
+          }
+
+          attachTextToImg(informations);
+
+        }
+
+    });
+
+    myCanvas.on('leftLabelTool', function(){
+      drawText = false;
+    });
+
+    this.on('mount', function () {
+      //reset the input box's value according to image scale
+      if(imgSelected) $("#zoom-scale").val(Math.round(imgSelected.size.imageScale*100)+'%');
+    });
+
+    function  findInArray(array, daTrovare){
+
+      for (var i in array) if (array[i] == daTrovare) return i;
+
+      return -1;
+
+    }
+
+    function attachEvents(text){
+
+      text.on('click', function(e){
+
+        riot.mount('actionbar', { actions: ["label"]});
+
+        var pos = findInArray(selectedTexts, text);
+
+        if (pos == -1){
+          text.selectize({
+            rotationPoint: false,
+            pointsExclude : ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l']
+          })
+
+
+          selectedTexts.push(text);
+
+          document.getElementById("textInput").value = text.text();
+
+        }
+        else{
+          text.selectize(false, {deepSelect : true});
+          selectedTexts.splice(pos, 1);
+        }
+
+        e.stopPropagation();
+
+      });
+
+    }
+
+    $(document).keyup(function(e) {
+        if (e.keyCode == 46) {
+          for (var i = 0; i < selectedTexts.length; i++) {
+            selectedTexts[i].selectize(false, {deepSelect : true});
+            selectedTexts[i].remove();
+          }
+        }
+    });
+
+    function rescaleImage(){
+
+      $("#zoom-scale").val(Math.round(imgSelected.size.imageScale*100)+'%');
+
+      imgSelected.size.scaledWidth = Math.floor(imgSelected.size.width * imgSelected.size.imageScale);
+      imgSelected.size.scaledHeight = Math.floor(imgSelected.size.height * imgSelected.size.imageScale);
+
+      riot.mount('workarea');
+  }
+  </script>
+</action-label>
+

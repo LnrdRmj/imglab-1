@@ -1,0 +1,317 @@
+<action-resize>
+  <style>
+    .zoom-bar{
+      display: flex;
+    }
+    .zoom-bar > div:not(:first-child){
+      margin-left: .2em;
+    }
+    .zoom-button{
+      padding: .3em;
+      cursor: pointer;
+    }
+    .zoom-button:not(.zoom-selected):hover{
+      background: grey;
+    }
+    input[type="text"]{
+      border: 0px;
+      text-align:center;
+      margin-top:.2em;
+    }
+  </style>
+  <div class="zoom-bar">
+    <div class="zoom-button">
+      <img src="img/icons/piu.png" data-zoom-type="add" onclick={ zoom }>
+    </div>
+    <div>
+      <input id="addpx" type='text' value="10" maxlength="4" size="4"/>
+    </div>
+    <div class="zoom-button">
+      <img src="img/icons/meno.png" data-zoom-type="rem" onclick={ zoom }>
+    </div>
+    <div>
+      <button onclick={ equalize }>Equalize</button>
+    </div>
+    <div>
+      <button onclick={ alignVertically }>Align Vertically</button>
+    </div>
+    <div>
+      <button onclick={ alignHorizontally }>Align Horyzontally</button>
+    </div>
+  </div>
+  <script>
+
+    const coordinate = [];
+
+    var tag = this;
+
+    tag.alignHorizontally = function (){
+
+      if (selectedElements.length == 0) {
+        alert("No initial shape selected");
+        return;
+      }
+
+      var initialShape = selectedElements[0];
+
+      for (var i = 1 ; i < selectedElements.length; i++){
+
+        var shape = findInArray(labellingData[imgSelected.name].shapes, 'id', selectedElements[i].node.id);
+
+        if (shape.id != initialShape.attr('id')){
+
+          shape.bbox.y = initialShape.attr('y');
+
+          shape.points[1] = shape.bbox.y;
+
+        }
+      }
+
+      riot.mount('workarea');
+
+    }
+
+    tag.alignVertically = function (){
+
+      if (selectedElements.length == 0) {
+        alert("No initial shape selected");
+        return;
+      }
+
+      var initialShape = selectedElements[0];
+
+      for (var i = 1 ; i < selectedElements.length; i++){
+
+        var shape = findInArray(labellingData[imgSelected.name].shapes, 'id', selectedElements[i].node.id);
+
+        if (shape.id != initialShape.attr('id')){
+
+          shape.bbox.x = initialShape.attr('x');
+
+          shape.points[0] = shape.bbox.x;
+
+        }
+      }
+
+      riot.mount('workarea');
+
+    }
+
+    tag.equalize = function (){
+
+      if (selectedElements.length == 0) {
+        alert("No initial shape selected");
+        return;
+      }
+      else if (selectedElements.length > 1) {
+        alert("Select only one shape");
+        return;
+      }
+
+      var initialShape = selectedElements[0];
+
+      for (var i in labellingData[imgSelected.name].shapes){
+        var shape = labellingData[imgSelected.name].shapes[i];
+
+        if (shape.id != initialShape.attr('id')){
+
+          shape.bbox.h = shape.bbox.height = initialShape.attr('height');
+          shape.bbox.w = shape.bbox.width = initialShape.attr('width');
+          shape.bbox.cx = shape.bbox.x + shape.bbox.width / 2;
+          shape.bbox.cy = shape.bbox.y + shape.bbox.height / 2;
+
+          shape.points = [shape.bbox.x, shape.bbox.y, shape.bbox.width, shape.bbox.height];
+
+        }
+
+      }
+
+      riot.mount('workarea');
+
+    }
+
+    tag.zoom = function (e){
+
+      var pixels = parseInt(document.getElementById("addpx").value);
+
+      const img = labellingData[imgSelected.name];
+      if(img){//if there are labels
+
+        switch (e.target.dataset.zoomType) {
+
+          case 'add':
+
+            img.shapes.forEach((shape)=>{
+
+              switch(shape.type){
+
+                case 'rect':
+                  if (pixels){
+
+                    shape.bbox.x -= pixels;
+                    shape.bbox.y -= pixels;
+                    shape.bbox.h += pixels * 2;
+                    shape.bbox.w += pixels * 2;
+
+                    shape.points = [shape.bbox.x, shape.bbox.y, Math.round(shape.bbox.w), Math.round(shape.bbox.h)];
+                  }
+                  break;
+
+                case 'circle':
+
+                  if (pixels){
+                    shape.bbox.x -= pixels;
+                    shape.bbox.y -= pixels;
+
+                    shape.bbox.h += pixels * 2;
+                    shape.bbox.height += pixels * 2;
+                    shape.bbox.w += pixels * 2;
+                    shape.bbox.width += pixels * 2;
+
+                    shape.points = [shape.bbox.cx, shape.bbox.cy, shape.points[2] + pixels];
+                  }
+                  break;
+
+                case 'polygon':
+
+                if (pixels){
+                    var cx = shape.bbox.cx;
+                    var cy = shape.bbox.cy;
+
+                    for (var i = 0; i < shape.points.length; i++){
+
+                      var point = shape.points[i];
+
+                      var x = point[0] - cx;
+                      var y = cy - point[1];
+
+                      var alpha = Math.atan(y/x);
+
+                      if(x < 0 && y < 0) alpha = Math.PI + alpha;
+                      else if(x < 0 && y > 0) alpha = Math.PI + alpha;
+
+                      var ip = Math.sqrt(x*x + y*y) + pixels;
+
+                      var nx = ip * Math.cos(alpha);
+                      var ny = ip * Math.sin(alpha)
+
+                      point[0] = nx + cx;
+                      point[1] = cy - ny;
+
+                    }
+                  }
+                  break;
+
+              }
+            });
+
+            break;
+
+
+          case 'rem':
+
+          img.shapes.forEach((shape)=>{
+
+            console.log(shape);
+
+            switch(shape.type){
+
+              case 'rect':
+                // Prevents negative dimensions
+                if (shape.bbox.h - pixels * 2 > 0 && shape.bbox.w - pixels * 2 > 0 && pixels){
+
+                  shape.bbox.h -= pixels * 2;
+                  shape.bbox.w -= pixels * 2;
+                  shape.bbox.x += pixels;
+                  shape.bbox.y += pixels;
+
+                  shape.points = [shape.bbox.x, shape.bbox.y, Math.round(shape.bbox.w), Math.round(shape.bbox.h)];
+                }
+
+                break;
+
+              case 'circle':
+                // Prevents negative dimensions
+                if (shape.bbox.h - pixels * 2 > 0 && shape.bbox.w - pixels * 2 >  0 && pixels){
+
+                  shape.bbox.h -= pixels * 2;
+                  shape.bbox.height -= pixels * 2;
+                  shape.bbox.w -= pixels * 2;
+                  shape.bbox.width -= pixels * 2;
+                  shape.bbox.x += pixels;
+                  shape.bbox.y += pixels;
+
+                  shape.points = [shape.bbox.cx, shape.bbox.cy, shape.points[2] - pixels];
+
+                  console.log(shape.bbox);
+
+                }
+
+                break;
+
+              case 'polygon':
+
+              if (pixels){
+
+                var cx = shape.bbox.cx;
+                var cy = shape.bbox.cy;
+
+                var tmpPoints = [];
+
+                for (var i = 0; i < shape.points.length; i++){
+
+                  tmpPoints[i] = shape.points[i];
+                  var point = shape.points[i];
+
+                  var x = point[0] - cx;
+                  var y = cy - point[1];
+
+                  var alpha = Math.atan(y/x);
+
+                  if(x < 0 && y < 0 || x < 0 && y > 0) alpha = Math.PI + alpha;
+
+                  var ip = Math.sqrt(x*x + y*y) - pixels;
+
+                  var nx = ip * Math.cos(alpha);
+                  var ny = ip * Math.sin(alpha);
+
+                  point[0] = nx + cx;
+                  point[1] = cy - ny;
+
+                }
+              }
+              break;
+
+            }
+          })
+
+          break;
+        }
+      }
+      rescaleImage();
+    }
+
+    function reset(){
+      for (var i = 0; i < labellingData[imgSelected.name].shapes.length; i++){
+        labellingData[imgSelected.name].shapes[i] = Object.assign({}, coordinate[i]);
+      }
+      rescaleImage();
+
+    }
+
+    this.on('mount', function () {
+      //reset the input box's value according to image scale
+      if(imgSelected) $("#zoom-scale").val(Math.round(imgSelected.size.imageScale*100)+'%');
+    });
+
+    function rescaleImage(){
+
+      $("#zoom-scale").val(Math.round(imgSelected.size.imageScale*100)+'%');
+
+      imgSelected.size.scaledWidth = Math.floor(imgSelected.size.width * imgSelected.size.imageScale);
+      imgSelected.size.scaledHeight = Math.floor(imgSelected.size.height * imgSelected.size.imageScale);
+
+      riot.mount('workarea');
+  }
+  </script>
+</action-resize>

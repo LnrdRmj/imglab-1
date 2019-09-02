@@ -35,18 +35,7 @@
 
 	<title>ImgLab - Image Annotation tool</title>
 
-	<link rel="stylesheet" href="css/style.min.css">
-	<link rel="stylesheet" href="css/slider.1.min.css">
-	<link rel="stylesheet" href="css/tags.min.css">
-	<link rel="stylesheet" href="css/svg.select.min.css">
-	<link rel="stylesheet" href="css/svg.min.css">
-	<link rel="stylesheet" href="css/jquery-confirm.min.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/snackbar.min.css">
-	<link rel="stylesheet" href="css/menu.min.css">
-	<link rel="stylesheet" href="css/fontello.min.css">
-	<link rel="stylesheet" href="css/jquery-editable-select.min.css">
-	<link rel="stylesheet" href="css/taggle.min.css">
+	<link rel="stylesheet" href="dist/css/all.min.css">
 
 	<script src="js/thirdparty/jquery.min.js"></script>
 	<script src="js/thirdparty/jquery-confirm.min.js"></script>
@@ -92,11 +81,7 @@
 	<div class="flex-row">
 		<div class="d-flex flex-row" style="height: calc(100vh - 50px);">
 			<div id="toolbar" class="d-flex flex-column overlay-color grey-border">
-				<toolbox tools="labelling">
-
-
-
-				</toolbox>
+				<toolbox tools="labelling"></toolbox>
 				<toolbox class="mt-auto toolbox-border-top" tools="canvas"></toolbox>
 			</div>
 			<div class="d-flex flex-column base-color" style="width: 100vw">
@@ -141,7 +126,12 @@
 	<script src="tags/label-panel.tag.html" type="riot/tag"></script>
 	<script src="tags/attributes-list.tag.html" type="riot/tag"></script>
 
-  <script src="tags/actions/10px-action.tag.html" type="riot/tag"></script>
+	<scritp src = "tags/actions/schedaTecnicaProdotti.json" type="text/javscript"></script>
+	<scritp src = "tags/actions/dimensioniProdotti.json" type="text/javscript"></script>
+
+	<script src="tags/actions/resize-action.tag.html" type="riot/tag"></script>
+	<script src="tags/actions/label-action.tag.html" type="riot/tag"></script>
+	<script src="tags/actions/replica-action.tag.html" type="riot/tag"></script>
 	<script src="tags/actions/lightbulb-action.tag.html" type="riot/tag"></script>
 	<script src="tags/actions/landmark-action.tag.html" type="riot/tag"></script>
 	<script src="tags/actions/zoom-action.tag.html" type="riot/tag"></script>

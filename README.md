@@ -43,11 +43,13 @@ ImgLab is platform independent, runs directly from the browser, and has no prere
 
 ![Hotkeys](/img/imglab-zoom.gif)
 
+### Resize Shapes
+
 **Other features**:
 
 * Special attention for dlib users. You can easily adjust the order of parts / landmarks / featurepoints.
 * Open-source and free forever.
-* You can draw feature points and shapes (circles, rectangles, polygons). Other shapes like ellipses, lines, curves will be added in the future if there is demand. 
+* You can draw feature points and shapes (circles, rectangles, polygons). Other shapes like ellipses, lines, curves will be added in the future if there is demand.
 * Small project file so it can be shared over the mail. In [निम्न (Nimn)](http://nimn.in) data format
 * Multiple formats are supported
   * dlib XML
@@ -55,7 +57,7 @@ ImgLab is platform independent, runs directly from the browser, and has no prere
   * Pascal VOC
   * COCO
   * Tensorflow (in plan)
-  
+
 **Other quality-of-life features**:
 
 * Drag or resize any annotation shape.
@@ -84,7 +86,7 @@ To install locally, head to the [Installation Guide](/docs/guide.md/#offline-ins
 
 Check the [Demo Video](https://youtu.be/Y-bJo_ylHTw) tutorial/demonstration or the [User Guide](/docs/guide.md) for more details.
 
-## Contributing 
+## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/NaturalIntelligence/imglab/blob/master/.github/First_Time_Contributors.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
@@ -96,6 +98,7 @@ This application is built upon following technology stack.
 * [Bootstrap](https://getbootstrap.com)
 * [Riot.js](https://github.com/riot/riot) - Simple and elegant component-based UI library
 * [SVG.js](http://svgjs.com)
+* [Gulp.js](https://gulpjs.com/)
 
 ## Showcase your work
 
@@ -103,14 +106,13 @@ While using this library, if you happen to build an open database that can help 
 
 ## Worth to mention
 
-- [Stubmatic](https://github.com/NaturalIntelligence/Stubmatic) : Mock web servers and services. Designed specialy for testers and testing. 
+- [Stubmatic](https://github.com/NaturalIntelligence/Stubmatic) : Mock web servers and services. Designed specialy for testers and testing.
 - [अनुमार्गक (anumargak)](https://github.com/node-muneem/anumargak) : Amazing fast router for node web servers.
 - **[मुनीम (Muneem)](https://github.com/node-muneem/muneem)** : Simple and fast web framework designed not only for developers but whole team.
-- [Match it](https://funcards.github.io/match-it/) : Generate Spot it like card game decks. 
+- [Match it](https://funcards.github.io/match-it/) : Generate Spot it like card game decks.
 
 *Note that* All above mentioned projects are free to use and welcome contributors.
 
 ## Contributors
 
 <a href="https://github.com/NaturalIntelligence/imglab/graphs/contributors"><img src="https://opencollective.com/imglab/contributors.svg?width=890&button=false" /></a>
-

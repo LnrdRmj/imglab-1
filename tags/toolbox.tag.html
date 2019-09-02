@@ -23,13 +23,13 @@
         <i if={tool.icon_font} class="tool-icon {tool.icon_font}" />
         <div>{ tool.title }</div>
     </div>
-    
+
     <script>
         //this.toolsData = tools[opts.tools];
         var tag = this;
         this.on('mount', function(){
             document.addEventListener('keydown', e => {
-                    
+
                 if (e.key == 'f'  && e.altKey){//featurepoint
                     $("#tool-point").click();
                     e.preventDefault();
@@ -85,6 +85,7 @@
             //TODO: should it unseect all the tools or tools in current toolbox
             $(".tool-selected").removeClass("tool-selected");
             var toolDetail = tools[opts.tools][e.item.toolid];
+            myCanvas.fire("leftLabelTool");
             if(toolDetail.selectAction){
                 toolDetail.selectAction();
             }else{
@@ -95,7 +96,7 @@
             if(toolDetail.actions){
                 riot.mount('actionbar', { actions: toolDetail.actions});
             }
-            
+
         }
     </script>
 </toolbox>

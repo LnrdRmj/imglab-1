@@ -22,7 +22,7 @@ function readDataFile(e){
     var input = e.target || e.srcElement;
     if (input.files && input.files[0]) {
         var dataFile = input.files[0];
-        
+
         var reader = new FileReader();
         reader.onload = function (e) {
             /* if(pointFile.name.endsWith(".pts")){
@@ -91,9 +91,9 @@ var loadDlibXml = function(data){
                         /* pose='4' detection_score='4' */
                     },
                     points : [
-                        currentBox.left, 
-                        currentBox.top, 
-                        currentBox.width, 
+                        currentBox.left,
+                        currentBox.top,
+                        currentBox.width,
                         currentBox.height
                     ],
                     attributes : [],
@@ -104,7 +104,7 @@ var loadDlibXml = function(data){
                         currentBox.part = [currentBox.part];
                     }
 
-                    for(var p_index=0; p_index< currentBox.part.length; p_index++){//for each part
+                    for(var p_index=0; p_index < currentBox.part.length; p_index++){//for each part
                         var pointlabel = currentBox.part[p_index].name || p_index+1;
 
                         boxObject[b_index].featurePoints.push({
@@ -119,9 +119,8 @@ var loadDlibXml = function(data){
         }
 
         if(labellingData[imgName]){
-            labellingData[imgName].shapes =  boxObject;
+            labellingData[imgName].shapes = boxObject;
         }
     }//End - for each image
 
 }
-
