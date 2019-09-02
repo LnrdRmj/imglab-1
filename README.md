@@ -1,7 +1,6 @@
 # [imglab](http://imglab.ml/)
 
 A web based tool to label images for objects that can be used to train dlib or other object detectors.
-Commit Proof
 
 [![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](http://www.firsttimersonly.com/)
 [![Bountysource](https://img.shields.io/bountysource/team/imglab/activity.svg)](https://salt.bountysource.com/teams/imglab)
